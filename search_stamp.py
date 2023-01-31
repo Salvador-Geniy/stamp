@@ -36,12 +36,12 @@ def get_circle(gray_blurred, img, h, w):
         for (a, b, r) in detected_circles[0, :]:
             r += 5
             # Draw the rectangle of the circle.
-            cv2.rectangle(img, (a - r, b - r), (a + r, b + r), (0, 255, 0), 4)
+            # cv2.rectangle(img, (a - r, b - r), (a + r, b + r), (0, 255, 0), 4)
 
             # Draw a small circle (of radius 1) to show the center.
-            cv2.circle(img, (a, b), 1, (0, 0, 255), 3)
-            cv2.imshow("Detected Circle", img)
-            cv2.waitKey(0)
-            cv2.destroyAllWindows()
+            # cv2.circle(img, (a, b), 1, (0, 0, 255), 3)
+            # cv2.imshow("Detected Circle", img)
+            # cv2.waitKey(0)
+            # cv2.destroyAllWindows()
 
             return a, b, r
