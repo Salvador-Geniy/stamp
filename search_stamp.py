@@ -20,12 +20,12 @@ def colored_mask(img, threshold=-1):
     return dst
 
 
-def get_circle(gray_blurred, img, h, w):
+def get_circle(gray_blurred, img, min_r, max_r):
     # coordinates = {}
     # Apply Hough transform on the blurred image.
     detected_circles = cv2.HoughCircles(gray_blurred,
                                         cv2.HOUGH_GRADIENT, 1, 20, param1=20,
-                                        param2=10, minRadius=round(w * 0.07), maxRadius=round(h * 0.12))
+                                        param2=10, minRadius=round(min_r), maxRadius=round(max_r))
 
     # Draw rectangle that are detected.
     if detected_circles is not None:
@@ -36,12 +36,12 @@ def get_circle(gray_blurred, img, h, w):
         for (a, b, r) in detected_circles[0, :]:
             r += 5
             # Draw the rectangle of the circle.
-            cv2.rectangle(img, (a - r, b - r), (a + r, b + r), (0, 255, 0), 4)
+            # cv2.rectangle(img, (a - r, b - r), (a + r, b + r), (0, 255, 0), 4)
 
             # Draw a small circle (of radius 1) to show the center.
-            cv2.circle(img, (a, b), 1, (0, 0, 255), 3)
-            cv2.imshow("Detected Circle", img)
-            cv2.waitKey(0)
-            cv2.destroyAllWindows()
+            # cv2.circle(img, (a, b), 1, (0, 0, 255), 3)
+            # cv2.imshow("Detected Circle", img)
+            # cv2.waitKey(0)
+            # cv2.destroyAllWindows()
 
             return a, b, r
