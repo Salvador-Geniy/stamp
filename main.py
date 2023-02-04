@@ -15,6 +15,7 @@ def upload_file():
     file.save(file_path)
     result = sort_func(doc_type, file_path)
     os.remove(file_path)
+
     return result
 
 

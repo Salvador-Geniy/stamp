@@ -90,4 +90,7 @@ def sort_func(doc_type, doc):
     elif doc_type == 'mvd_back':
         result = mvd_back(doc)
 
+    else:
+        result = 'Wrong type of file! Please check your request details.'
+
     return result
