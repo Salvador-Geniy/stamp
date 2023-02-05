@@ -30,14 +30,12 @@ def add_apo_answer(a, b, w_apo, h_apo, w_doc, h_doc):
     return [[x_1, y_1], [x_2, y_1], [x_2, y_2], [x_1, y_2]]
 
 
-
-
 def birth_face(path_to_file):
     img_rgb = cv2.imread(path_to_file)
     h, w = img_rgb.shape[:2]
     crop_img = img_rgb[h // 3 * 2:h, 0:w // 2]
     dst = colored_mask(crop_img)
-    a, b, r = get_circle(dst, crop_img, w*0.07, h*0.12)
+    a, b, r = get_circle(dst, crop_img, w * 0.07, h * 0.12)
 
     b += h // 3 * 2
 
@@ -46,15 +44,25 @@ def birth_face(path_to_file):
     return coordinates
 
 
-def birth_back(path_to_file):
-    img_rgb = cv2.imread(path_to_file)
-    h, w = img_rgb.shape[:2]
-    crop_img = img_rgb[h // 3:h // 3 * 2, 0:w // 2]
+def birth_back_stamp(image, h_doc, w_doc):
+    crop_img = image[h_doc // 3:h_doc // 3 * 2, 0:w_doc // 2]
     dst = colored_mask(crop_img)
-    a, b, r = get_circle(dst, crop_img, w*0.07, h*0.12)
+    a, b, r = get_circle(dst, crop_img, w_doc * 0.07, h_doc * 0.12)
 
-    b += h // 3
-    coordinates = get_stamp_answer(a, b, r, h, w)
+    b += h_doc // 3
+    coordinates = get_stamp_answer(a, b, r, h_doc, w_doc)
+
+    return coordinates
+
+def birth_back_apo():
+    pass
+
+
+def birth_back(path_to_file):
+    image = cv2.imread(path_to_file)
+    h, w = image.shape[:2]
+
+    coordinates = birth_back_stamp(image, h, w)
 
     return coordinates
 
@@ -65,7 +73,7 @@ def mvd(path_to_file):
     crop_img = img_rgb[h // 4 * 3:h, w // 5:w // 4 * 3]
 
     dst = colored_mask(crop_img)
-    a, b, r = get_circle(dst, crop_img, w*0.05, w*0.11)
+    a, b, r = get_circle(dst, crop_img, w * 0.05, w * 0.11)
 
     a += w // 5
     b += h // 4 * 3
@@ -75,8 +83,8 @@ def mvd(path_to_file):
     return coordinates
 
 
-def mvd_back_stamp(image, h, w):
-    crop_img = image[h // 2:h // 6 * 5, 0:w // 4 * 3]
+def mvd_back_stamp(image, h_doc, w_doc):
+    crop_img = image[h_doc // 2:h_doc // 6 * 5, 0:w_doc // 4 * 3]
 
     # Set maximum of brightness
     hsv = cv2.cvtColor(crop_img, cv2.COLOR_BGR2HSV)
@@ -84,11 +92,11 @@ def mvd_back_stamp(image, h, w):
     crop_img = cv2.cvtColor(hsv, cv2.COLOR_HSV2BGR)
 
     dst = colored_mask(crop_img)
-    a, b, r = get_circle(dst, crop_img, w * 0.07, h * 0.12)
+    a, b, r = get_circle(dst, crop_img, w_doc * 0.07, h_doc * 0.12)
 
-    b += h // 2
+    b += h_doc // 2
 
-    coordinates = get_stamp_answer(a, b, r, h, w)
+    coordinates = get_stamp_answer(a, b, r, h_doc, w_doc)
 
     return coordinates
 
@@ -96,6 +104,7 @@ def mvd_back_stamp(image, h, w):
 def mvd_back_apo(image, h_doc, w_doc):
     crop_img = image[h_doc // 5:h_doc // 4 * 3, 0:w_doc]
     a, b, w_apo, h_apo = get_contour(crop_img)
+    b += h_doc // 5
     apo_coordinates = add_apo_answer(a, b, w_apo, h_apo, w_doc, h_doc)
 
     return apo_coordinates
@@ -111,7 +120,6 @@ def mvd_back(path_to_file):
 
 
 def sort_func(doc_type, doc):
-
     if doc_type == 'birth_face':
         result = birth_face(doc)
 
