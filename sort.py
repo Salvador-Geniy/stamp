@@ -3,11 +3,18 @@ from search_stamp import colored_mask, get_circle
 from search_apo import get_contour
 
 
-def get_stamp_answer(a, b, r, h, w):
-    x_1 = round(int(a - r) / w, 3)
-    x_2 = round(int(a + r) / w, 3)
-    y_1 = round(int(b - r) / h, 3)
-    y_2 = round(int(b + r) / h, 3)
+def test_answer(coordinates):
+    for key, value in (coordinates['coordinates']).items():
+        coordinates['coordinates'][key] = [[a if a > 0 else 0 for a in b] for b in value]
+
+    return coordinates
+
+
+def get_stamp_answer(a, b, r, h_doc, w_doc):
+    x_1 = round(int(a - r) / w_doc, 3)
+    x_2 = round(int(a + r) / w_doc, 3)
+    y_1 = round(int(b - r) / h_doc, 3)
+    y_2 = round(int(b + r) / h_doc, 3)
     coordinates = {'coordinates': {
         'stamp': [
             [x_1, y_1],
@@ -40,6 +47,7 @@ def birth_face(path_to_file):
     b += h // 3 * 2
 
     coordinates = get_stamp_answer(a, b, r, h, w)
+    coordinates = test_answer(coordinates)
 
     return coordinates
 
@@ -54,15 +62,22 @@ def birth_back_stamp(image, h_doc, w_doc):
 
     return coordinates
 
-def birth_back_apo():
-    pass
+
+def birth_back_apo(image, h_doc, w_doc):
+    crop_img = image[0:h_doc // 2, 0:w_doc // 4 * 3]
+    a, b, w_apo, h_apo = get_contour(crop_img)
+    apo_coordinates = add_apo_answer(a, b, w_apo, h_apo, w_doc, h_doc)
+
+    return apo_coordinates
 
 
 def birth_back(path_to_file):
     image = cv2.imread(path_to_file)
-    h, w = image.shape[:2]
+    h_doc, w_doc = image.shape[:2]
 
-    coordinates = birth_back_stamp(image, h, w)
+    coordinates = birth_back_stamp(image, h_doc, w_doc)
+    coordinates['coordinates']['apostille'] = mvd_back_apo(image, h_doc, w_doc)
+    coordinates = test_answer(coordinates)
 
     return coordinates
 
@@ -79,6 +94,7 @@ def mvd(path_to_file):
     b += h // 4 * 3
 
     coordinates = get_stamp_answer(a, b, r, h, w)
+    coordinates = test_answer(coordinates)
 
     return coordinates
 
@@ -115,6 +131,7 @@ def mvd_back(path_to_file):
     h, w = image.shape[:2]
     coordinates = mvd_back_stamp(image, h, w)
     coordinates['coordinates']['apostille'] = mvd_back_apo(image, h, w)
+    coordinates = test_answer(coordinates)
 
     return coordinates
 

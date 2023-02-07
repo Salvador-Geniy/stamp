@@ -7,7 +7,7 @@ def apo_mask(crop_img):
 
     edged = cv2.Canny(gray, 280, 300)
 
-    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (50, 50))
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (100, 100))
     closed = cv2.morphologyEx(edged, cv2.MORPH_CLOSE, kernel)
 
     return closed
