@@ -137,16 +137,16 @@ def mvd_back(path_to_file):
 
 
 def sort_func(doc_type, doc):
-    if doc_type == 'birth_face':
+    if doc_type == 'rus_birth_certificate_new':
         result = birth_face(doc)
 
-    elif doc_type == 'birth_back':
+    elif doc_type == 'apostille_zags':
         result = birth_back(doc)
 
-    elif doc_type == 'mvd':
+    elif doc_type == 'rus_non_conviction':
         result = mvd(doc)
 
-    elif doc_type == 'mvd_back':
+    elif doc_type == 'apostille_mvd':
         result = mvd_back(doc)
 
     else:
