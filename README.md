@@ -1,4 +1,4 @@
-#Find the Stamps
+# Find the Stamps
 
 This is one of the several external program modules. 
 The program as a whole is designed to work with electronic versions of documents, to accelerate the implementation of translation from one language to another. 
