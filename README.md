@@ -1,4 +1,4 @@
-Find the Stamps
+###Find the Stamps
 
 This is one of the several external program modules. 
 The program as a whole is designed to work with electronic versions of documents, to accelerate the implementation of translation from one language to another. 
@@ -8,6 +8,9 @@ The task of this module is to search on a document of several types of stamps (r
 calculation and return of their coordinates, for further processing in the main program.
 
 The modul is written as API with using framework Flask.
+To obtain results, you need to send POST-request with a file of one of the formats - .jpg, .jpeg, .png 
+and specify the type of document: Birth certificate (Russia) or a certificate of no criminal record (Russia).
+The answer to this request will contain the coordinates of the detected stamps.
 
 
 
@@ -20,3 +23,7 @@ The modul is written as API with using framework Flask.
 рассчет и возврат их координат, для дальнейшей обработки в основной программе. 
 
 Модуль написан как api на фреймворке Flask.
+
+Для получения результатов необходимо отправить Post-запрос с файлом одного из форматов - .jpg, .jpeg, .png 
+и указать тип документа : Свидетельство о рождении(Россия) или справка об отсутствии судимости (Россия). 
+В ответе на данный запрос будут содержаться координаты обнаруженных штампов.  
